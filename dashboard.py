@@ -125,4 +125,4 @@ with aba_ranking:
     df_ranking.insert(0, 'POSIÇÃO', range(1, len(df_ranking) + 1))
     
     st.write(f"**Total de alunos encontrados neste filtro:** {len(df_ranking)}")
-    st.dataframe(df_ranking, use_container_width=True, hide_index=True)
+    st.dataframe(df_ranking, width="stretch", hide_index=True)
