@@ -34,15 +34,23 @@ with aba_busca:
         cidade_amigo = st.selectbox("Selecione a Cidade onde fez a prova", lista_cidades, key="cidade_amigo")
         
     st.write("---")
-    st.write("**Insira as suas notas exatas (utilize ponto para as décimas, ex: 645.3):**")
+    st.write("**Insira as suas notas exatas (pode usar vírgula ou ponto):**")
     
+    # Função para o Python aceitar a vírgula, trocar por ponto invisivelmente e converter para matemática
+    def tratar_nota(valor_texto):
+        if not valor_texto: # Se o amigo deixar em branco
+            return 0.0
+        try:
+            return float(valor_texto.replace(",", "."))
+        except ValueError:
+            return 0.0 # Se o amigo digitar letras sem querer, o Python não quebra
+            
     c1, c2, c3, c4, c5 = st.columns(5)
-    with c1: nota_cn = st.number_input("Ciências da Natureza", min_value=0.0, max_value=1000.0, step=0.1)
-    with c2: nota_ch = st.number_input("Ciências Humanas", min_value=0.0, max_value=1000.0, step=0.1)
-    with c3: nota_lc = st.number_input("Linguagens e Códigos", min_value=0.0, max_value=1000.0, step=0.1)
-    with c4: nota_mt = st.number_input("Matemática", min_value=0.0, max_value=1000.0, step=0.1)
-    with c5: nota_red = st.number_input("Redação", min_value=0.0, max_value=1000.0, step=0.1)
-    
+    with c1: nota_cn = tratar_nota(st.text_input("Ciências da Natureza", value="0"))
+    with c2: nota_ch = tratar_nota(st.text_input("Ciências Humanas", value="0"))
+    with c3: nota_lc = tratar_nota(st.text_input("Linguagens e Códigos", value="0"))
+    with c4: nota_mt = tratar_nota(st.text_input("Matemática", value="0"))
+    with c5: nota_red = tratar_nota(st.text_input("Redação", value="0"))
     if st.button("Calcular Minha Posição no Ranking", type="primary"):
         # Calcula a média simples do utilizador
         media_usuario = (nota_cn + nota_ch + nota_lc + nota_mt + nota_red) / 5
